@@ -15,6 +15,7 @@ public class BinarySortTree {
 	
 	public void insert(Node root, Node node) {
 		if(root.data == node.data) {
+			System.out.println("不允许添加相同的节点");
 			return;
 		}
 		if(root.data > node.data) {
@@ -43,25 +44,22 @@ public class BinarySortTree {
 		inOrder(root.right);
 	}
 	
-	public boolean find(int data) {
-		return null != this.find(this.root, data);
-	}
+	public Node search(int data) {
+        return search(root, data);
+    }
 	
-	private Node find(Node root, int data) {
+	private Node search(Node root, int data) {
 		if(null == root) {
 			return null;
 		}
 		if(data == root.data) {
 			return root;
 		}
-		if(data < root.data) {
-			return this.find(root.left, data);
-		}
-		return this.find(root.right, data);
+		return data < root.data ? this.search(root.left, data) : this.search(root.right, data);
 	}
 	
 	public boolean delete(int data) {
-		Node node = this.find(this.root, data);
+		Node node = this.search(this.root, data);
 		if(null == node) {
 			System.out.println("需要删除的节点不存在");
 			return false;

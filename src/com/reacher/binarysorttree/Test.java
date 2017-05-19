@@ -18,7 +18,7 @@ public class Test {
 		System.out.println("=====================");
 		tree.print();
 		
-		if(tree.find(9)) {
+		if(null != tree.search(9)) {
 			System.out.println("存在");
 		} else {
 			System.out.println("不存在");
