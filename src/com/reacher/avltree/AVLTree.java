@@ -41,11 +41,11 @@ public class AVLTree<T extends Comparable<T>> {
     /**
      * (非递归实现)查找"AVL树"中值为data的节点
      * @param root
-     * @param key
+     * @param data
      * @return
      */
-    public Node search(T key) {
-        return search(root, key);
+    public Node search(T data) {
+        return search(root, data);
     }
     
     private Node search(Node root, T data) {
@@ -60,11 +60,11 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
     /**
-     * 左单旋转
+     * 右单旋转
      * @param root
      * @return 旋转后的根节点
      */
-    private Node leftRotation(Node root) {
+    private Node rightRotation(Node root) {
         Node p = root.left;
         
         root.left = p.right;
@@ -77,11 +77,11 @@ public class AVLTree<T extends Comparable<T>> {
     }
 
     /**
-     * 右单旋转
+     * 左单旋转
      * @param root
      * @return 旋转后的根节点
      */
-    private Node rightRotation(Node root) {
+    private Node leftRotation(Node root) {
         Node p = root.right;
 
         root.right = p.left;
@@ -100,9 +100,9 @@ public class AVLTree<T extends Comparable<T>> {
      */
     private Node leftRightRotation(Node root) {
     	
-        root.left = rightRotation(root.left);
+        root.left = leftRotation(root.left);
 
-        return leftRotation(root);
+        return rightRotation(root);
     }
 
     /**
@@ -112,9 +112,9 @@ public class AVLTree<T extends Comparable<T>> {
      */
     private Node rightLeftRotation(Node root) {
     	
-        root.right = leftRotation(root.right);
+        root.right = rightRotation(root.right);
 
-        return rightRotation(root);
+        return leftRotation(root);
     }
     
     public void insert(T data) {
@@ -140,7 +140,7 @@ public class AVLTree<T extends Comparable<T>> {
         	root.left = this.insert(root.left, data);
         	if(1 < this.height(root.left) - this.height(root.right)) {//判断是否平衡
         		if(data.compareTo(root.left.data) < 0) {
-        			root = this.leftRotation(root);
+        			root = this.rightRotation(root);
         		} else {
         			root = this.leftRightRotation(root);
         		}
@@ -149,7 +149,7 @@ public class AVLTree<T extends Comparable<T>> {
         	root.right = this.insert(root.right, data);
         	if(1 < this.height(root.right) - this.height(root.left)) {//判断是否平衡
         		if(data.compareTo(root.right.data) > 0) {
-        			root = this.rightRotation(root);
+        			root = this.leftRotation(root);
         		} else {
         			root = this.rightLeftRotation(root);
         		}
