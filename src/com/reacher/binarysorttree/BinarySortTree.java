@@ -5,34 +5,23 @@ public class BinarySortTree {
 	private Node root;
 	
 	public void insert(int data) {
-		Node node = new Node(data);
-		if(null == this.root) {
-			this.root = node;
-		} else {
-			this.insert(this.root, node);
-		}
+		this.root = this.insert(this.root, data);
 	}
 	
-	public void insert(Node root, Node node) {
-		if(root.data == node.data) {
+	public Node insert(Node root, int data) {
+		if(null == root) {
+			return new Node(data);
+		}
+		if(root.data == data) {
 			System.out.println("不允许添加相同的节点");
-			return;
+			return null;
 		}
-		if(root.data > node.data) {
-			if(null == root.left) {
-				node.parent = root;
-				root.left = node;
-			} else {
-				this.insert(root.left, node);
-			}
+		if(data < root.data) {
+			root.left = this.insert(root.left, data);
 		} else {
-			if(null == root.right) {
-				node.parent = root;
-				root.right = node;
-			} else {
-				this.insert(root.right, node);
-			}
+			root.right = this.insert(root.right, data);
 		}
+		return root;
 	}
 	
 	private void inOrder(Node root) {
@@ -58,35 +47,34 @@ public class BinarySortTree {
 		return data < root.data ? this.search(root.left, data) : this.search(root.right, data);
 	}
 	
-	public boolean delete(int data) {
-		Node node = this.search(this.root, data);
-		if(null == node) {
-			System.out.println("需要删除的节点不存在");
-			return false;
+	public void remove(int data) {
+		Node node = this.search(data);
+		if(null != node) {
+			this.root = this.remove(this.root, node);
 		}
-		if(null == node.left) {
-			if(node == this.root) {
-				this.root = node.right;
+	}
+	
+	private Node remove(Node root, Node node) {
+		if(null == root || null == node) {
+			return null;
+		}
+		if(node.data < root.data) {
+			root.left = this.remove(root.left, node);
+		} else if(node.data > root.data) {
+			root.right = this.remove(root.right, node);
+		} else {
+			if(null != root.left && null != root.right) {
+				node = node.right;
+				while(null != node.left) {
+					node = node.left;
+				}
+				root.data = node.data;
+				root.right = this.remove(root.right, node);
 			} else {
-				node.parent.left = node.right;
+				root = null != root.left ? root.left : root.right;
 			}
-			return true;
 		}
-		if(null == node.right) {
-			if(node == this.root) {
-				this.root = node.left;
-			} else {
-				node.parent.right = node.left;
-			}
-			return true;
-		}
-		Node p = node.right;
-		while(null != p.left) {
-			p = p.left;
-		}
-		node.data = p.data;
-		p.parent.left = p.right;
-		return true;
+		return root;
 	}
 	
 	public void print() {
@@ -102,7 +90,6 @@ public class BinarySortTree {
 		private int data;
 		private Node left;
 		private Node right;
-		private Node parent;
 		
 		public Node(int data) {
 			this.data = data;
