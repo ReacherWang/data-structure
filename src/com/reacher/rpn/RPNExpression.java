@@ -16,7 +16,7 @@ public class RPNExpression {
 				buffer.append(ch);
 				continue;
 			}
-			if(ch == ')') {//如果是有括号则出栈拼接
+			if(ch == ')') {//如果是右括号则出栈拼接
 				while(!stack.peek().equals("(")) {//直到出现左括号停止
 					buffer.append(stack.pop());
 				}
@@ -26,7 +26,7 @@ public class RPNExpression {
 			if(!Utils.CalculatorUtil.isOperator(ch)) {//判断是否为操作符，如果不是则抛出异常信息
 				throw new Exception("Operator error!");
 			}
-			while(!isDirectPush(stack, String.valueOf(ch))) {//判断当前操作符能否直接
+			while(!isDirectPush(stack, String.valueOf(ch))) {//判断当前操作符能否直接入栈
 				buffer.append(stack.pop());
 			}
 			stack.push(String.valueOf(ch));

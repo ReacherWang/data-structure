@@ -6,7 +6,7 @@ public class Calculator {
 
 	public static int calculate(String expression) throws Exception {
 		String reverse = RPNExpression.reverse(expression);
-		System.out.println(reverse);
+
 		Stack<Integer> stack = new Stack<Integer>();
 		
 		for(int i = 0; i < reverse.length(); ++i) {

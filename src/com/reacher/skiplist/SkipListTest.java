@@ -18,7 +18,13 @@ public class SkipListTest {
 
         skipList.print();
 
-        System.out.println(skipList.find(6) + 1);
+        int result = skipList.find(6);
+        if(-1 == result) {
+            System.out.println("不存在");
+        } else {
+            System.out.println(String.format("在第%d层", result + 1));
+        }
+
     }
 
 }
