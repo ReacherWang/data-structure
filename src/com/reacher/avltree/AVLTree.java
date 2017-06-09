@@ -190,23 +190,22 @@ public class AVLTree<T extends Comparable<T>> {
         }
         if (root == null) {
             return null;
-        } else {
-            if (1 < height(root.left) - height(root.right)) {//判断是否平衡
+        } 
+        if (1 < height(root.left) - height(root.right)) {//判断是否平衡
                 if (height(root.left.left) >= height(root.left.right)) {
                     root = this.leftRotation(root);
                 } else {
                     root = this.leftRightRotation(root);
                 }
             }
-            if (1 < height(root.right) - height(root.left)) {//判断是否平衡
+        if (1 < height(root.right) - height(root.left)) {//判断是否平衡
                 if (height(root.right.right) >= height(root.right.left)) {
                     root = this.rightRotation(root);
                 } else {
                     root = this.rightLeftRotation(root);
                 }
             }
-            return root;
-        }
+        return root;
     }
     
     private class Node {
