@@ -159,6 +159,54 @@ public class AVLTree<T extends Comparable<T>> {
     	
     	return root;
     }
+
+	public Node findMin(Node root) { //查找这棵树中的最小节点并返回
+        if (root == null) {
+            return null;
+        }
+        while (root.left != null) {
+            root = root.left;
+        }
+        return root;
+    }
+
+    public void remove(T data) {
+        this.root = remove(this.root, data);
+    }
+
+    private Node remove(Node root, T data) {
+        if (root == null) {
+            return null;
+        }
+        if (data.compareTo(root.data) < 0) {
+            root.left = remove(root.left, data);
+        } else if (data.compareTo(root.data) > 0) {
+            root.right = remove(root.right, data);
+        } else if (root.left != null && root.right != null) {
+            root.data = findMin(root.right).data;
+            root.right = remove(root.right, data);
+        } else {
+            root = (root.left == null) ? root.right : root.left;
+        }
+        if (root == null) {
+            return null;
+        } 
+        if (1 < height(root.left) - height(root.right)) {//判断是否平衡
+                if (height(root.left.left) >= height(root.left.right)) {
+                    root = this.leftRotation(root);
+                } else {
+                    root = this.leftRightRotation(root);
+                }
+            }
+        if (1 < height(root.right) - height(root.left)) {//判断是否平衡
+                if (height(root.right.right) >= height(root.right.left)) {
+                    root = this.rightRotation(root);
+                } else {
+                    root = this.rightLeftRotation(root);
+                }
+            }
+        return root;
+    }
     
     private class Node {
         private T data;
